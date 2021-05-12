@@ -12,16 +12,23 @@ export default createGlobalStyle`
   box-sizing:border-box;
 
 }
+
+a{
+  text-decoration:none;
+  color:white;
+}
 body{
-  background-image:url('/deadpool.jpg');
+  
+
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
   background-size:cover;
   font-size:14px;
   color:#fff;
-  font-family:'Bungee', cursive, 'Sans-serif';
+  font-family:'Bungee', sans-serif;
 
 }
+
 
 `

@@ -1,7 +1,7 @@
-import React, { useReducer, FunctionComponent, Reducer, Dispatch } from 'react';
+import React, { useReducer, FunctionComponent, Reducer, Dispatch } from "react";
 
 interface DataState {
-  data: [];
+  [key: string]: any;
 }
 interface Action {
   type: string;
@@ -9,23 +9,27 @@ interface Action {
 }
 
 type BoundActions<T> = {
-  [K in keyof T]: T[K] extends (d: Dispatch<Action>) => infer R ? R : never
-}
+  [K in keyof T]: T[K] extends (d: Dispatch<Action>) => infer R ? R : never;
+};
 type ContextValue<T> = {
   state: DataState;
-} & BoundActions<T>
+} & BoundActions<T>;
 
-export const createDataContext = <T extends {}>(reducer: Reducer<DataState, Action>, actions: T, initialState: DataState) => {
- 
-  const Context = React.createContext({state: initialState} as ContextValue<T>);
+export const createDataContext = <T extends {}>(
+  reducer: Reducer<DataState, Action>,
+  actions: T,
+  initialState: DataState
+) => {
+  const Context = React.createContext({
+    state: initialState,
+  } as ContextValue<T>);
 
-  
   const Provider: FunctionComponent = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const boundActions = {} as BoundActions<T>;
     for (let key in actions) {
-      // @ts-ignore 
+      // @ts-ignore
       boundActions[key] = actions[key](dispatch);
     }
 
@@ -37,5 +41,4 @@ export const createDataContext = <T extends {}>(reducer: Reducer<DataState, Acti
   };
 
   return { Context, Provider };
-}
-
+};
